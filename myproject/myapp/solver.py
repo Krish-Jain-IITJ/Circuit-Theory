@@ -10,32 +10,39 @@ def solve_circuit_network(R, C, L, n):
     Y = 1/impedance
     result = []
     #impedance A matrix
-    A = np.zeros((n*n, n*n), dtype=complex)
-    for i in range(n*n):
-        for j in range(n*n):
-            if i == j : A[i][j] = 4*impedance
-            else:
-                #down loop
-                if i+1<n*n : 
-                    A[i+1][j] = -impedance
-                    A[j][i+1] = -impedance
-                #up loop
-                if i-1 >= 0:
-                    A[i-1][j] = -impedance
-                    A[j][i-1] = -impedance
-                
-                #right loop
-                if i < n*n and j+1<n*n: 
-                    A[i][j+1] = -impedance
-                    A[j+1][i] = -impedance
-                #left loop
-                if i < n*n and j-1>=0: 
-                    A[i][j-1] = -impedance
-                    A[j-1][i] = -impedance
-    for i in range(n*n):
-        for j in range(n*n):
-            if i == j : A[i][j] = 4*impedance
-   
+
+    size = n*n
+    A = np.zeros((size, size), dtype=complex)
+
+    for row in range(n):
+        for col in range(n):
+
+            i = row*n + col
+
+            # diagonal term
+            A[i][i] = 4 * impedance
+
+            # UP neighbour
+            if row > 0:
+                j = (row-1)*n + col
+                A[i][j] = -impedance
+
+            # DOWN neighbour
+            if row < n-1:
+                j = (row+1)*n + col
+                A[i][j] = -impedance
+
+            # LEFT neighbour
+            if col > 0:
+                j = row*n + (col-1)
+                A[i][j] = -impedance
+
+            # RIGHT neighbour
+            if col < n-1:
+                j = row*n + (col+1)
+                A[i][j] = -impedance
+
+
     result.append(impedance)
     #current in each loop
     V = np.ones((n*n,1),dtype = complex)
@@ -110,10 +117,10 @@ def pid_control(I_ref, I_measured, prev_error, integral, kp=0.5, ki=0.1, kd=0.01
     return control, error, integral
 
 
-def buck_converter_voltage(Vin, duty):
+# def buck_converter_voltage(Vin, duty):
 
-    Vout = duty * Vin
-    return Vout
+#     Vout = duty * Vin
+#     return Vout
 
 
 # ------------------------
@@ -157,4 +164,6 @@ print("Final Controlled Current:\n", I_measured)
 
 #accuracy
 final_accuracy = (1 - np.linalg.norm(I_ref - I_measured) / np.linalg.norm(I_ref)) * 100
+
 print(f"Final Accuracy: {final_accuracy:.2f}%")
+

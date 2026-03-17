@@ -8,6 +8,116 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* ---------- Global Styling ---------- */
+
+body{
+    background: linear-gradient(135deg,#f9fafb,#3182e3);
+    font-family: 'Inter', sans-serif;
+    color:#1f2937;
+}
+
+/* ---------- Navigation ---------- */
+
+nav{
+    backdrop-filter: blur(6px);
+    background: rgba(223, 248, 249, 0.7);
+    border-radius:12px;
+}
+
+/* ---------- Headings ---------- */
+
+h1{
+    letter-spacing:-0.02em;
+    color:#111827;
+}
+
+h2{
+    color:#111827;
+}
+
+/* ---------- Input Fields ---------- */
+
+input{
+    transition: all 0.25s ease;
+}
+
+input:focus{
+    border-color:#1a8917;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+/* ---------- Card Containers ---------- */
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:24px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.06);
+    transition:all 0.3s ease;
+}
+
+.card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 40px rgba(0,0,0,0.08);
+}
+
+/* ---------- Solver Output ---------- */
+
+#result-section div{
+    background:white;
+    border-radius:14px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.06);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary{
+    background:linear-gradient(135deg,#1a8917,#15803d);
+    box-shadow:0 6px 14px rgba(26,137,23,0.25);
+}
+
+.btn-primary:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 22px rgba(26,137,23,0.35);
+}
+
+/* ---------- Graph Containers ---------- */
+
+#impedance-graph,
+#result-section div{
+    background:linear-gradient(180deg,#ffffff,#f9fafb);
+}
+
+/* ---------- Lists ---------- */
+
+ul{
+    font-family:monospace;
+    font-size:14px;
+    color:#374151;
+}
+
+/* ---------- Section Divider ---------- */
+
+hr{
+    opacity:0.4;
+}
+
+/* ---------- Smooth Page Feel ---------- */
+
+main{
+    animation:fadein 0.6s ease;
+}
+
+@keyframes fadein{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
         body { font-family: 'Inter', sans-serif; color: #292929; }
         h1, h2 { font-family: 'Lora', serif; }
         .btn-primary { background-color: #1a8917; transition: background 0.2s; }
@@ -106,7 +216,18 @@ Solve Circuit
 <p>L = {{l}}</p>
 <p>Loops = {{loops}}</p>
 <p class="mt-4 font-medium">Matrix</p>
-<ul class="list-disc ml-6">{{matrix}}</ul>
+
+<table class="ml-6 border border-gray-400">
+{% for row in matrix %}
+<tr>
+    {% for val in row %}
+    <td class="border px-3 py-1 text-center">
+        {{ val.real|floatformat:2 }} + {{ val.imag|floatformat:2 }}j
+    </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+</table>
 
 <p class="mt-4 font-medium">Current </p>
 <ul class="list-disc ml-6">{{currents}}</ul>
@@ -152,6 +273,8 @@ class="aspect-video bg-gray-50 rounded-lg border border-dashed border-gray-300">
       <script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
+// const w = 1
+// const baseImpedance = 0
     
 function solveCircuit() {
 
@@ -161,7 +284,8 @@ const n = Number(djangoData.dataset.n);
 const r = Number(djangoData.dataset.r);
 const c = Number(djangoData.dataset.c);
 const l = Number(djangoData.dataset.l);
-
+// const w = 1
+// baseImpedance = r + (l*w - 1/(w*(c+1e-6)))
 
     
 
@@ -288,6 +412,17 @@ function showImpedanceEditor(n){
 
 function generateImpedanceGraph(n){
 
+    //commit 16/3
+    const djangoData = document.getElementById("django-data");
+
+    const r = Number(djangoData.dataset.r);
+    const c = Number(djangoData.dataset.c);
+    const l = Number(djangoData.dataset.l);
+
+    const w = 1;
+
+    const baseImpedance = r + (l*w - 1/(w*(c+1e-6)));
+
     const container = d3.select("#impedance-graph");
     container.selectAll("*").remove();
 
@@ -325,7 +460,7 @@ function generateImpedanceGraph(n){
             edges.push({
                 source:nodes[i*grid+j],
                 target:nodes[i*grid+j+1],
-                impedance: 10
+                impedance: baseImpedance
             });
 
         }
@@ -338,7 +473,7 @@ function generateImpedanceGraph(n){
             edges.push({
                 source:nodes[i*grid+j],
                 target:nodes[(i+1)*grid+j],
-                impedance:10
+                impedance: baseImpedance
             });
 
         }
