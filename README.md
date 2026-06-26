@@ -55,6 +55,7 @@ Circuit-Theory/
 - Python 3.10+
 - pip
 - (Optional) Virtual environment tool: `venv` or `conda`
+<img width="662" height="320" alt="image" src="https://github.com/user-attachments/assets/164067ff-2fe0-4564-8b14-883707a4e2c3" />
 
 ### Installation
 
@@ -87,6 +88,7 @@ python manage.py runserver
 The app will be available at `http://127.0.0.1:8000/`.
 
 ---
+<img width="662" height="322" alt="image" src="https://github.com/user-attachments/assets/75296b81-0ea4-4a2f-8006-1511f6e12178" />
 
 ## Environment Variables
 
@@ -125,6 +127,7 @@ uvicorn myproject.asgi:application --host 0.0.0.0 --port 8000
 ```
 
 ---
+<img width="662" height="317" alt="image" src="https://github.com/user-attachments/assets/f5676ed9-0f0c-488b-9158-bb9527c18060" />
 
 ## Key Dependencies
 
@@ -145,6 +148,10 @@ uvicorn myproject.asgi:application --host 0.0.0.0 --port 8000
 | `gunicorn==25.1.0` | Production WSGI server |
 
 For the full list, see [`requirements.txt`](./requirements.txt).
+<img width="665" height="321" alt="image" src="https://github.com/user-attachments/assets/4afb5800-998e-415b-9704-c98b991008b4" />
+<img width="675" height="386" alt="image" src="https://github.com/user-attachments/assets/7ec41c78-56f3-4f40-b07f-cb1e9dee125d" />
+<img width="667" height="321" alt="image" src="https://github.com/user-attachments/assets/fc5b1c21-8164-4949-b79e-65eb0a089bd8" />
+<img width="662" height="321" alt="image" src="https://github.com/user-attachments/assets/605a9517-4b44-4be8-a683-86a838f17350" />
 
 ---
 
