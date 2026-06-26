@@ -131,6 +131,7 @@ uvicorn myproject.asgi:application --host 0.0.0.0 --port 8000
 
 ## Key Dependencies
 
+For the full list, see [`requirements.txt`](./requirements.txt).
 | Package | Purpose |
 |---|---|
 | `django==5.2.12` | Web framework |
@@ -147,7 +148,6 @@ uvicorn myproject.asgi:application --host 0.0.0.0 --port 8000
 | `pypdf==6.7.5` | PDF reading and parsing |
 | `gunicorn==25.1.0` | Production WSGI server |
 
-For the full list, see [`requirements.txt`](./requirements.txt).
 <img width="665" height="321" alt="image" src="https://github.com/user-attachments/assets/4afb5800-998e-415b-9704-c98b991008b4" />
 <img width="675" height="386" alt="image" src="https://github.com/user-attachments/assets/7ec41c78-56f3-4f40-b07f-cb1e9dee125d" />
 <img width="667" height="321" alt="image" src="https://github.com/user-attachments/assets/fc5b1c21-8164-4949-b79e-65eb0a089bd8" />
